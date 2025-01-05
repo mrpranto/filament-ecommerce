@@ -1,0 +1,111 @@
+models:
+  Role:
+    name: string
+    description: text nullable
+    is_delete_able: boolean
+    created_by: unsignedBigInteger nullable
+    updated_by: unsignedBigInteger nullable
+    relationships:
+      belongsToMany: Permission
+
+  Module:
+    name: string
+    description: text nullable
+    relationships:
+      hasMany: Permission
+
+  Permission:
+    module_id: foreign:modules.id
+    name: string
+    slug: string
+    relationships:
+      belongsTo: Module
+      belongsToMany: Role
+
+  Unit:
+    name: string
+    deleted_at: timestamp
+    description: text nullable
+    created_by: unsignedBigInteger nullable
+    updated_by: unsignedBigInteger nullable
+
+  Category:
+    name: string
+    deleted_at: timestamp
+    description: text nullable
+    created_by: unsignedBigInteger nullable
+    updated_by: unsignedBigInteger nullable
+    relationships:
+      hasMany: SubCategory,Product
+
+  SubCategory:
+    category_id: foreign:categories.id
+    name: string
+    deleted_at: timestamp
+    description: text nullable
+    created_by: unsignedBigInteger nullable
+    updated_by: unsignedBigInteger nullable
+    relationships:
+      hasMany: SubSubCategory,Product
+      belongsTo: SubCategory
+
+  SubSubCategory:
+    sub_category_id: foreign:sub_categories.id
+    name: string
+    deleted_at: timestamp
+    description: text nullable
+    created_by: unsignedBigInteger nullable
+    updated_by: unsignedBigInteger nullable
+    relationships:
+      belongsTo: SubCategory
+
+  Brand:
+    name: string
+    description: text
+    deleted_at: timestamp
+    created_by: unsignedBigInteger nullable
+    updated_by: unsignedBigInteger nullable
+
+  Discount:
+    name: string
+    amount: float
+    type: enum:flat,percentage
+    deleted_at: timestamp
+    created_by: unsignedBigInteger nullable
+    updated_by: unsignedBigInteger nullable
+
+  Product:
+    name: string
+    barcode: string unique
+    category_id: foreign:categories.id
+    sub_category_id: foreign:sub_categories.id
+    sub_sub_category_id: foreign:sub_sub_categories.id
+    brand_id: foreign:brands.id
+    discount: foreign:discounts.id
+    description: mediumText
+    deleted_at: timestamp
+    created_by: unsignedBigInteger nullable
+    updated_by: unsignedBigInteger nullable
+    relationships:
+      belongsTo: Category,SubCategory,SubSubCategory,Brand,Discount
+      hasMany: ProductPhoto, ProductVariation
+
+  ProductVariation:
+    size: string
+    color: string
+    material: string
+    badge: string
+    relationships:
+      belongsTo: Product
+
+
+  ProductPhoto:
+    product_id: foreign:products.id
+    product_variation_id: foreign:product_variations.id
+    file_path: text
+    deleted_at: timestamp
+    created_by: unsignedBigInteger nullable
+    updated_by: unsignedBigInteger nullable
+
+
+
