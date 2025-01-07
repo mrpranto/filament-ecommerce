@@ -13,7 +13,12 @@ class ListDiscounts extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            Actions\CreateAction::make()
+                ->label('Add New Discount')
+                ->icon('heroicon-s-plus')
+                ->slideOver()
+                ->successNotificationTitle('Discount created successfully !')
+                ->modalIcon('heroicon-s-plus'),
         ];
     }
 }

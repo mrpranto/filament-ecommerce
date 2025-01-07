@@ -27,16 +27,20 @@ class DiscountResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('name')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->columnSpanFull(),
+
                 Forms\Components\TextInput::make('amount')
                     ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('type')
-                    ->required(),
-                Forms\Components\TextInput::make('created_by')
-                    ->numeric(),
-                Forms\Components\TextInput::make('updated_by')
-                    ->numeric(),
+                    ->numeric()
+                    ->suffix('BDT'),
+
+                Forms\Components\Select::make('type')
+                    ->options([
+                        'percentage' => 'Percentage',
+                        'flat' => 'Flat',
+                    ])
+                    ->native(false),
             ]);
     }
 
@@ -46,28 +50,29 @@ class DiscountResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
+
                 Tables\Columns\TextColumn::make('amount')
+                    ->label('Discount')
+                    ->sortable()
+                    ->getStateUsing(fn ($record) => $record->type == 'percentage' ? $record->amount.' %' : $record->amount.' BDT'),
+
+                Tables\Columns\TextColumn::make('created_by.name')
                     ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('type'),
-                Tables\Columns\TextColumn::make('deleted_at')
-                    ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('created_by')
+
+                Tables\Columns\TextColumn::make('updated_by.name')
                     ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('updated_by')
-                    ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->sortable(),
+
                 Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->sortable(),
             ])
             ->filters([
                 //
@@ -93,8 +98,8 @@ class DiscountResource extends Resource
     {
         return [
             'index' => Pages\ListDiscounts::route('/'),
-            'create' => Pages\CreateDiscount::route('/create'),
-            'edit' => Pages\EditDiscount::route('/{record}/edit'),
+//            'create' => Pages\CreateDiscount::route('/create'),
+//            'edit' => Pages\EditDiscount::route('/{record}/edit'),
         ];
     }
 }

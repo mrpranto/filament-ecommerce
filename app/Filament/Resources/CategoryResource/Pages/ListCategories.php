@@ -18,7 +18,8 @@ class ListCategories extends ListRecords
                 ->label('Add New Category')
                 ->icon('heroicon-s-plus')
                 ->slideOver()
-                ->successNotificationTitle('Category created successfully !'),
+                ->successNotificationTitle('Category created successfully !')
+                ->modalIcon('heroicon-s-plus'),
         ];
     }
 }
