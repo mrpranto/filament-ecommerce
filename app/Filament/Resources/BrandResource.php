@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\CategoryResource\Pages;
-use App\Filament\Resources\CategoryResource\RelationManagers;
-use App\Models\Category;
+use App\Filament\Resources\BrandResource\Pages;
+use App\Filament\Resources\BrandResource\RelationManagers;
+use App\Models\Brand;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -12,14 +12,16 @@ use Filament\Tables;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
 
-class CategoryResource extends Resource
+class BrandResource extends Resource
 {
-    protected static ?string $model = Category::class;
+    protected static ?string $model = Brand::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+
     protected static ?string $navigationGroup = 'Products';
 
     public static function form(Form $form): Form
@@ -27,11 +29,11 @@ class CategoryResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
-                    ->columnSpanFull()
                     ->required()
-                    ->minLength(3)
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->columnSpanFull(),
                 Forms\Components\RichEditor::make('description')
+                    ->nullable()
                     ->columnSpanFull(),
                 Forms\Components\Toggle::make('status')
                     ->default(true)
@@ -47,13 +49,14 @@ class CategoryResource extends Resource
                 Tables\Columns\TextColumn::make('description')
                     ->limit()
                     ->html(),
+
                 Tables\Columns\ToggleColumn::make('status'),
 
-                Tables\Columns\TextColumn::make('createdBy.name')
+                Tables\Columns\TextColumn::make('created_by.name')
                     ->numeric()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updatedBy.name')
+                Tables\Columns\TextColumn::make('updated_by.name')
                     ->numeric()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -65,6 +68,7 @@ class CategoryResource extends Resource
                     ->sortable(),
             ])
             ->filters([
+
                 Filter::make('status')
                     ->form([
                         Forms\Components\Radio::make('status')
@@ -114,7 +118,6 @@ class CategoryResource extends Resource
                         return $string;
 
                     })
-
             ])
             ->filtersTriggerAction(
                 fn(Tables\Actions\Action $action) => $action
@@ -125,17 +128,17 @@ class CategoryResource extends Resource
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\EditAction::make()
                         ->slideOver()
-                        ->successNotificationTitle('Category updated successfully !')
+                        ->successNotificationTitle('Brand updated successfully !')
                         ->modalIcon('heroicon-o-pencil'),
 
                     Tables\Actions\DeleteAction::make()
-                        ->successNotificationTitle('Category deleted successfully !')
+                        ->successNotificationTitle('Brand deleted successfully !')
                 ])
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make()
-                        ->successNotificationTitle('Selected Category deleted successfully !'),
+                    ->successNotificationTitle('Selected Brand deleted successfully !'),
                 ]),
             ]);
     }
@@ -150,9 +153,9 @@ class CategoryResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListCategories::route('/'),
-//            'create' => Pages\CreateCategory::route('/create'),
-//            'edit' => Pages\EditCategory::route('/{record}/edit'),
+            'index' => Pages\ListBrands::route('/'),
+//            'create' => Pages\CreateBrand::route('/create'),
+//            'edit' => Pages\EditBrand::route('/{record}/edit'),
         ];
     }
 }

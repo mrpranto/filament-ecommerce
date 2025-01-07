@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->float('amount');
             $table->enum('type', ["flat","percentage"]);
+            $table->boolean('status')->default(true);
             $table->softDeletes();
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('updated_by')->nullable();

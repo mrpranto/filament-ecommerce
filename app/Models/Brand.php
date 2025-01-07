@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Models\Trait\ModelBoot;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Brand extends Model
 {
-    use HasFactory;
+    use ModelBoot;
 
     /**
      * The attributes that are mass assignable.
@@ -16,6 +17,7 @@ class Brand extends Model
      */
     protected $fillable = [
         'name',
+        'status',
         'description',
         'created_by',
         'updated_by',

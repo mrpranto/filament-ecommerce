@@ -18,6 +18,7 @@ class SubSubCategory extends Model
     protected $fillable = [
         'sub_category_id',
         'name',
+        'status',
         'description',
         'created_by',
         'updated_by',

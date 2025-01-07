@@ -18,6 +18,7 @@ class Discount extends Model
         'name',
         'amount',
         'type',
+        'status',
         'created_by',
         'updated_by',
     ];

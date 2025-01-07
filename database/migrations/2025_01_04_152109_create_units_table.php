@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->softDeletes();
             $table->text('description')->nullable();
+            $table->boolean('status')->default(true);
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('updated_by')->nullable();
             $table->timestamps();
