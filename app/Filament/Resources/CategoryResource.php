@@ -46,7 +46,7 @@ class CategoryResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->description(fn ($record) => new HtmlString(Str::limit($record->description, 50)))
+                    ->description(fn($record) => new HtmlString(Str::limit($record->description, 50)))
                     ->searchable(),
                 Tables\Columns\ToggleColumn::make('status'),
 
@@ -83,7 +83,7 @@ class CategoryResource extends Resource
                     ->indicateUsing(function ($data) {
                         if (isset($data['status'])) {
                             $status = $data['status'] === '1' ? 'Active' : 'Inactive';
-                            return  "Filtered by status {$status}";
+                            return "Filtered by status {$status}";
                         }
                     }),
 
@@ -96,29 +96,29 @@ class CategoryResource extends Resource
                         return $query
                             ->when(
                                 $data['start_date'],
-                                fn (Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
+                                fn(Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
                             )
                             ->when(
                                 $data['end_date'],
-                                fn (Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
+                                fn(Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
                             );
                     })
                     ->indicateUsing(function ($data) {
 
-                            $string = '';
-                            if (isset($data['start_date'])) {
-                                $string .= " Start Date = {$data['start_date']}";
-                            }
-                            if (isset($data['end_date'])) {
-                                $string .= " & End Date = {$data['end_date']}";
-                            }
-                            return $string;
+                        $string = '';
+                        if (isset($data['start_date'])) {
+                            $string .= " Start Date = {$data['start_date']}";
+                        }
+                        if (isset($data['end_date'])) {
+                            $string .= " & End Date = {$data['end_date']}";
+                        }
+                        return $string;
 
                     })
 
             ])
             ->filtersTriggerAction(
-                fn (Tables\Actions\Action $action) => $action
+                fn(Tables\Actions\Action $action) => $action
                     ->button()
                     ->label('Filter'),
             )
@@ -127,8 +127,7 @@ class CategoryResource extends Resource
                     Tables\Actions\EditAction::make()
                         ->slideOver()
                         ->successNotificationTitle('Category updated successfully !')
-                        ->modalIcon('heroicon-o-pencil')
-                        ->visible(auth()->user()->name == 'admin'),
+                        ->modalIcon('heroicon-o-pencil'),
 
                     Tables\Actions\DeleteAction::make()
                         ->successNotificationTitle('Category deleted successfully !')
