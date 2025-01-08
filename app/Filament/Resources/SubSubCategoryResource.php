@@ -4,6 +4,8 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\SubSubCategoryResource\Pages;
 use App\Filament\Resources\SubSubCategoryResource\RelationManagers;
+use App\Models\Category;
+use App\Models\SubCategory;
 use App\Models\SubSubCategory;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -27,16 +29,24 @@ class SubSubCategoryResource extends Resource
             ->schema([
                 Forms\Components\Select::make('sub_category_id')
                     ->relationship('subCategory', 'name')
-                    ->required(),
+                    ->required()
+                    ->searchDebounce(0)
+                    ->searchable()
+                    ->preload()
+                    ->createOptionForm(SubCategory::getForm())
+                    ->createOptionModalHeading('Create Sub Category')
+                    ->editOptionForm(SubCategory::getForm())
+                    ->native(false),
+
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255),
+
                 Forms\Components\Textarea::make('description')
                     ->columnSpanFull(),
-                Forms\Components\TextInput::make('created_by')
-                    ->numeric(),
-                Forms\Components\TextInput::make('updated_by')
-                    ->numeric(),
+
+               Forms\Components\Toggle::make('status')
+                ->default(true)
             ]);
     }
 

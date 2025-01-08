@@ -34,7 +34,9 @@ class SubCategoryResource extends Resource
                     ->searchable()
                     ->preload()
                     ->createOptionForm(Category::getForm())
+                    ->createOptionModalHeading('Create Category')
                     ->editOptionForm(Category::getForm())
+                    ->editOptionModalHeading('Edit Category')
                     ->native(false),
                 Forms\Components\TextInput::make('name')
                     ->required()

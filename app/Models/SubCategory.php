@@ -2,6 +2,10 @@
 
 namespace App\Models;
 
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -57,5 +61,29 @@ class SubCategory extends Model
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
+    }
+    public static function getForm()
+    {
+        return [
+            Select::make('sub_category_id')
+                ->relationship('subCategory', 'name')
+                ->required()
+                ->searchDebounce(0)
+                ->searchable()
+                ->preload()
+                ->createOptionForm(Category::getForm())
+                ->editOptionForm(Category::getForm())
+                ->native(false),
+
+            TextInput::make('name')
+                ->required()
+                ->maxLength(255),
+
+            Textarea::make('description')
+                ->columnSpanFull(),
+
+            Toggle::make('status')
+                ->default(true)
+        ];
     }
 }
