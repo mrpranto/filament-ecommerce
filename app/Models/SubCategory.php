@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Trait\CreatedUpdatedByRelationship;
+use App\Models\Trait\ModelBoot;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Section;
@@ -13,10 +15,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class SubCategory extends Model
 {
-    use HasFactory;
+    use HasFactory, ModelBoot, SoftDeletes, CreatedUpdatedByRelationship;
 
     /**
      * The attributes that are mass assignable.

@@ -67,12 +67,12 @@ class SubCategoryResource extends Resource
                     ->html()
                     ->toggleable(isToggledHiddenByDefault: true),
 
-                Tables\Columns\TextColumn::make('created_by.name')
+                Tables\Columns\TextColumn::make('createdBy.name')
                     ->numeric()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
 
-                Tables\Columns\TextColumn::make('updated_by.name')
+                Tables\Columns\TextColumn::make('updatedBy.name')
                     ->numeric()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -190,8 +190,6 @@ class SubCategoryResource extends Resource
     {
         return [
             'index' => Pages\ListSubCategories::route('/'),
-//            'create' => Pages\CreateSubCategory::route('/create'),
-//            'edit' => Pages\EditSubCategory::route('/{record}/edit'),
         ];
     }
 }

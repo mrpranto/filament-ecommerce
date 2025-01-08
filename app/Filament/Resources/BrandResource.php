@@ -48,15 +48,16 @@ class BrandResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('description')
                     ->limit()
+                    ->wrap(true)
                     ->html(),
 
                 Tables\Columns\ToggleColumn::make('status'),
 
-                Tables\Columns\TextColumn::make('created_by.name')
+                Tables\Columns\TextColumn::make('createdBy.name')
                     ->numeric()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_by.name')
+                Tables\Columns\TextColumn::make('updatedBy.name')
                     ->numeric()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -154,8 +155,6 @@ class BrandResource extends Resource
     {
         return [
             'index' => Pages\ListBrands::route('/'),
-//            'create' => Pages\CreateBrand::route('/create'),
-//            'edit' => Pages\EditBrand::route('/{record}/edit'),
         ];
     }
 }

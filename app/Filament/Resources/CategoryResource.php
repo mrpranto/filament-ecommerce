@@ -46,6 +46,7 @@ class CategoryResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('description')
                     ->limit()
+                    ->wrap(true)
                     ->html(),
                 Tables\Columns\ToggleColumn::make('status'),
 
@@ -151,8 +152,6 @@ class CategoryResource extends Resource
     {
         return [
             'index' => Pages\ListCategories::route('/'),
-//            'create' => Pages\CreateCategory::route('/create'),
-//            'edit' => Pages\EditCategory::route('/{record}/edit'),
         ];
     }
 }

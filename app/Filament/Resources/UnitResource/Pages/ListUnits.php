@@ -13,7 +13,12 @@ class ListUnits extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            Actions\CreateAction::make()
+                ->label('Create Unit')
+                ->icon('heroicon-s-plus')
+                ->slideOver()
+                ->successNotificationTitle('Unit created successfully !')
+                ->modalIcon('heroicon-s-plus'),
         ];
     }
 }
