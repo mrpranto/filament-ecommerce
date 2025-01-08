@@ -15,7 +15,7 @@ return new class extends Migration
 
         Schema::create('sub_sub_categories', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('sub_category_id')->constrained('subcategories');
+            $table->foreignId('sub_category_id')->constrained('sub_categories');
             $table->string('name');
             $table->softDeletes();
             $table->boolean('status')->default(true);

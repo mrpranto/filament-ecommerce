@@ -24,7 +24,7 @@ class DiscountFactory extends Factory
             'name' => $this->faker->name(),
             'amount' => $this->faker->randomFloat(0, 0, 9999999999.),
             'type' => $this->faker->randomElement(["flat","percentage"]),
-            'deleted_at' => $this->faker->dateTime(),
+            'status' => rand(0,1),
             'created_by' => $this->faker->randomNumber(),
             'updated_by' => $this->faker->randomNumber(),
         ];

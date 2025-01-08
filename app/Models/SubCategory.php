@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use Filament\Forms\Components\Grid;
+use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -62,24 +65,30 @@ class SubCategory extends Model
     {
         return $this->belongsTo(Category::class);
     }
-    public static function getForm()
+
+    public static function getForm(): array
     {
         return [
-            Select::make('sub_category_id')
-                ->relationship('subCategory', 'name')
-                ->required()
-                ->searchDebounce(0)
-                ->searchable()
-                ->preload()
-                ->createOptionForm(Category::getForm())
-                ->editOptionForm(Category::getForm())
-                ->native(false),
+            Grid::make(2)
+                ->schema([
+                    Select::make('category_id')
+                        ->relationship('category', 'name')
+                        ->required()
+                        ->searchDebounce(0)
+                        ->searchable()
+                        ->preload()
+                        ->createOptionForm(Category::getForm())
+                        ->createOptionModalHeading('Create Category')
+                        ->editOptionForm(Category::getForm())
+                        ->editOptionModalHeading('Edit Category')
+                        ->native(false),
 
-            TextInput::make('name')
-                ->required()
-                ->maxLength(255),
+                    TextInput::make('name')
+                        ->required()
+                        ->maxLength(255),
+                ]),
 
-            Textarea::make('description')
+            RichEditor::make('description')
                 ->columnSpanFull(),
 
             Toggle::make('status')

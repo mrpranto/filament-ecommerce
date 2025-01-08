@@ -23,7 +23,7 @@ class BrandFactory extends Factory
         return [
             'name' => $this->faker->name(),
             'description' => $this->faker->text(),
-            'deleted_at' => $this->faker->dateTime(),
+            'status' => rand(0,1),
             'created_by' => $this->faker->randomNumber(),
             'updated_by' => $this->faker->randomNumber(),
         ];

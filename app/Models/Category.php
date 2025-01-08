@@ -7,13 +7,14 @@ use App\Models\Trait\ModelBoot;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Category extends Model
 {
-    use CreatedUpdatedByRelationship, SoftDeletes, ModelBoot;
+    use CreatedUpdatedByRelationship, SoftDeletes, ModelBoot, HasFactory;
 
     /**
      * The attributes that are mass assignable.

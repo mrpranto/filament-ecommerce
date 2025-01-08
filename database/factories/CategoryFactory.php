@@ -22,8 +22,8 @@ class CategoryFactory extends Factory
     {
         return [
             'name' => $this->faker->name(),
-            'deleted_at' => $this->faker->dateTime(),
             'description' => $this->faker->text(),
+            'status' => rand(0,1),
             'created_by' => $this->faker->randomNumber(),
             'updated_by' => $this->faker->randomNumber(),
         ];

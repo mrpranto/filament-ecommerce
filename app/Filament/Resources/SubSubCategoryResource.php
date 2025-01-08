@@ -42,7 +42,7 @@ class SubSubCategoryResource extends Resource
                     ->required()
                     ->maxLength(255),
 
-                Forms\Components\Textarea::make('description')
+                Forms\Components\RichEditor::make('description')
                     ->columnSpanFull(),
 
                Forms\Components\Toggle::make('status')
@@ -102,8 +102,8 @@ class SubSubCategoryResource extends Resource
     {
         return [
             'index' => Pages\ListSubSubCategories::route('/'),
-            'create' => Pages\CreateSubSubCategory::route('/create'),
-            'edit' => Pages\EditSubSubCategory::route('/{record}/edit'),
+//            'create' => Pages\CreateSubSubCategory::route('/create'),
+//            'edit' => Pages\EditSubSubCategory::route('/{record}/edit'),
         ];
     }
 }

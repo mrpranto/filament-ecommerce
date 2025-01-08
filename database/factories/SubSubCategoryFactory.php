@@ -22,9 +22,9 @@ class SubSubCategoryFactory extends Factory
     public function definition(): array
     {
         return [
-            'sub_category_id' => SubCategory::factory(),
+            'sub_category_id' => SubCategory::query()->pluck('id')->random(),
             'name' => $this->faker->name(),
-            'deleted_at' => $this->faker->dateTime(),
+            'status' => rand(0,1),
             'description' => $this->faker->text(),
             'created_by' => $this->faker->randomNumber(),
             'updated_by' => $this->faker->randomNumber(),

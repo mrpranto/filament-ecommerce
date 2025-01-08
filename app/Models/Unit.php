@@ -2,12 +2,15 @@
 
 namespace App\Models;
 
+use App\Models\Trait\CreatedUpdatedByRelationship;
+use App\Models\Trait\ModelBoot;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Unit extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes, CreatedUpdatedByRelationship, ModelBoot;
 
     /**
      * The attributes that are mass assignable.

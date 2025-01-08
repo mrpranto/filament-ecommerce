@@ -22,7 +22,7 @@ class UnitFactory extends Factory
     {
         return [
             'name' => $this->faker->name(),
-            'deleted_at' => $this->faker->dateTime(),
+            'status' => rand(0,1),
             'description' => $this->faker->text(),
             'created_by' => $this->faker->randomNumber(),
             'updated_by' => $this->faker->randomNumber(),
