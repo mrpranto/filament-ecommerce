@@ -23,7 +23,6 @@ class SubCategory extends Model
         'description',
         'created_by',
         'updated_by',
-        'sub_category_id',
     ];
 
     /**

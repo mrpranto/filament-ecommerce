@@ -13,7 +13,12 @@ class ListSubCategories extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            Actions\CreateAction::make()
+                ->label('Add New Sub Category')
+                ->icon('heroicon-s-plus')
+                ->slideOver()
+                ->successNotificationTitle('SubCategory created successfully !')
+                ->modalIcon('heroicon-s-plus')
         ];
     }
 }

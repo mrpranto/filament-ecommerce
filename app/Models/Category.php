@@ -4,6 +4,9 @@ namespace App\Models;
 
 use App\Models\Trait\CreatedUpdatedByRelationship;
 use App\Models\Trait\ModelBoot;
+use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -47,5 +50,20 @@ class Category extends Model
     public function products(): HasMany
     {
         return $this->hasMany(Product::class);
+    }
+
+    public static function getForm()
+    {
+        return [
+            TextInput::make('name')
+                ->columnSpanFull()
+                ->required()
+                ->minLength(3)
+                ->maxLength(255),
+            RichEditor::make('description')
+                ->columnSpanFull(),
+            Toggle::make('status')
+                ->default(true)
+        ];
     }
 }
