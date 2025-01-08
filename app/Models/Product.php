@@ -73,11 +73,6 @@ class Product extends Model
         return $this->belongsTo(Discount::class);
     }
 
-    public function discount(): BelongsTo
-    {
-        return $this->belongsTo(Discount::class);
-    }
-
     public function productPhotos(): HasMany
     {
         return $this->hasMany(ProductPhoto::class);
