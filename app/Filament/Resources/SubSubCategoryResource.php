@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Clusters\Product;
 use App\Filament\Resources\SubSubCategoryResource\Pages;
 use App\Filament\Resources\SubSubCategoryResource\RelationManagers;
 use App\Models\Category;
@@ -22,7 +23,9 @@ class SubSubCategoryResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    protected static ?string $navigationGroup = 'Products';
+    protected static ?string $cluster = Product::class;
+
+    protected static ?int $navigationSort = 3;
 
     public static function form(Form $form): Form
     {
@@ -80,10 +83,13 @@ class SubSubCategoryResource extends Resource
 
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime('F j, Y h:i A')
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+
                 Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime('F j, Y h:i A')
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 Filter::make('sub_category_id')

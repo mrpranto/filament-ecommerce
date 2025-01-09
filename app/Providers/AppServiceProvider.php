@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Filament\Clusters\Product;
 use Filament\Facades\Filament;
 use Illuminate\Support\ServiceProvider;
 
