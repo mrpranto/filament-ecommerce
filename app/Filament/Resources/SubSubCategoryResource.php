@@ -29,29 +29,7 @@ class SubSubCategoryResource extends Resource
 
     public static function form(Form $form): Form
     {
-        return $form
-            ->schema([
-                Forms\Components\Select::make('sub_category_id')
-                    ->relationship('subCategory', 'name')
-                    ->required()
-                    ->searchDebounce(0)
-                    ->searchable()
-                    ->preload()
-                    ->createOptionForm(SubCategory::getForm())
-                    ->createOptionModalHeading('Create Sub Category')
-                    ->editOptionForm(SubCategory::getForm())
-                    ->native(false),
-
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->maxLength(255),
-
-                Forms\Components\RichEditor::make('description')
-                    ->columnSpanFull(),
-
-               Forms\Components\Toggle::make('status')
-                ->default(true)
-            ]);
+        return $form->schema(SubSubCategory::getForm());
     }
 
     public static function table(Table $table): Table
@@ -64,6 +42,8 @@ class SubSubCategoryResource extends Resource
 
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
+
+                Tables\Columns\ToggleColumn::make('status'),
 
                 Tables\Columns\TextColumn::make('description')
                     ->html()

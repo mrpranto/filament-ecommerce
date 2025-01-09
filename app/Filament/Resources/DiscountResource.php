@@ -28,36 +28,7 @@ class DiscountResource extends Resource
 
     public static function form(Form $form): Form
     {
-        return $form
-            ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->maxLength(255)
-                    ->columnSpanFull(),
-
-                Forms\Components\TextInput::make('amount')
-                    ->required()
-                    ->numeric()
-                    ->suffix(fn ($get) => $get('amount_suffix') ?? 'BDT'),
-
-                Forms\Components\Select::make('type')
-                    ->live()
-                    ->required()
-                    ->options([
-                        'percentage' => 'Percentage (%)',
-                        'flat' => 'Flat (BDT)',
-                    ])
-                    ->native(false)
-                    ->afterStateUpdated(function ($set, $state) {
-                        if ($state === 'flat') {
-                            $set('amount_suffix', 'BDT');
-                        }else{
-                            $set('amount_suffix', '%');
-                        }
-                    }),
-                Forms\Components\Toggle::make('status')
-                    ->default(true)
-            ]);
+        return $form->schema(Discount::getForm());
     }
 
     public static function table(Table $table): Table

@@ -29,8 +29,7 @@ class BrandResource extends Resource
 
     public static function form(Form $form): Form
     {
-        return $form
-            ->schema(Brand::getForm());
+        return $form->schema(Brand::getForm());
     }
 
     public static function table(Table $table): Table
