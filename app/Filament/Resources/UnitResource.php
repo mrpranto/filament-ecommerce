@@ -19,7 +19,7 @@ class UnitResource extends Resource
 {
     protected static ?string $model = Unit::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-m-cube';
 
     protected static ?string $cluster = Product::class;
 

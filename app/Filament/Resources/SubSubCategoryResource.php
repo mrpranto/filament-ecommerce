@@ -21,7 +21,7 @@ class SubSubCategoryResource extends Resource
 {
     protected static ?string $model = SubSubCategory::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-bolt';
 
     protected static ?string $cluster = Product::class;
 
