@@ -19,16 +19,28 @@ class Product extends Model
     protected $fillable = [
         'name',
         'slug',
-        'barcode',
+
         'category_id',
         'sub_category_id',
         'sub_sub_category_id',
         'brand_id',
-        'discount',
         'description',
         'created_by',
         'updated_by',
+
         'discount_id',
+        'cost_price',
+        'sale_price',
+        'discounted_sale_price',
+
+        'barcode',
+        'sku',
+        'quantity',
+        'alert_quantity',
+
+        'is_returnable',
+        'return_validity',
+
     ];
 
     /**
@@ -42,7 +54,6 @@ class Product extends Model
         'sub_category_id' => 'integer',
         'sub_sub_category_id' => 'integer',
         'brand_id' => 'integer',
-        'discount' => 'integer',
         'deleted_at' => 'timestamp',
         'created_by' => 'integer',
         'updated_by' => 'integer',
