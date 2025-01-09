@@ -90,7 +90,7 @@ class CategoryResource extends Resource
                     ->indicateUsing(function ($data) {
                         if (isset($data['status'])) {
                             $status = $data['status'] === '1' ? 'Active' : 'Inactive';
-                            return "Filtered by status {$status}";
+                            return "Status = {$status}";
                         }
                     }),
 

@@ -97,6 +97,29 @@ class DiscountResource extends Resource
             ])
             ->filters([
 
+                Filter::make('type')
+                    ->form([
+                        Forms\Components\Select::make('type')
+                            ->live()
+                            ->required()
+                            ->options([
+                                'percentage' => 'Percentage (%)',
+                                'flat' => 'Flat (BDT)',
+                            ])
+                            ->native(false)
+                    ])->query(function (Builder $query, array $data): Builder {
+                        return $query
+                            ->when(isset($data['type']), function (Builder $query) use ($data) {
+                                return $query->where('type', $data['type']);
+                            });
+                    })
+                    ->indicateUsing(function ($data) {
+                        if (isset($data['type'])) {
+                            $type = $data['type'] === 'flat' ? 'BDT' : '%';
+                            return "Discount Type = {$type}";
+                        }
+                    }),
+
                 Filter::make('status')
                     ->form([
                         Forms\Components\Radio::make('status')
@@ -114,7 +137,7 @@ class DiscountResource extends Resource
                     ->indicateUsing(function ($data) {
                         if (isset($data['status'])) {
                             $status = $data['status'] === '1' ? 'Active' : 'Inactive';
-                            return "Filtered by status {$status}";
+                            return "Status = {$status}";
                         }
                     }),
 
