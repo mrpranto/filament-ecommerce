@@ -6,6 +6,7 @@ use App\Filament\Resources\ProductsResource\Pages;
 use App\Filament\Resources\ProductsResource\RelationManagers;
 use App\Models\Brand;
 use App\Models\Category;
+use App\Models\Discount;
 use App\Models\Product;
 use App\Models\SubCategory;
 use App\Models\SubSubCategory;
@@ -72,6 +73,39 @@ class ProductsResource extends Resource
                                 RichEditor::make('description')
                                     ->required()
                                     ->columnSpanFull()
+                            ])
+                            ->columns(2),
+
+                        Section::make('Pricing')
+                            ->schema([
+                                TextInput::make('cost_price')
+                                    ->required()
+                                    ->numeric()
+                                    ->prefix('BDT'),
+
+                                TextInput::make('sale_price')
+                                    ->required()
+                                    ->numeric()
+                                    ->prefix('BDT'),
+
+                                Select::make('discount_id')
+                                    ->relationship('discount')
+                                    ->getOptionLabelFromRecordUsing(function ($record) {
+                                        $symbol = $record->type == "flat" ? "BDT" : "%";
+                                        return "{$record->name} ($record->amount {$symbol})";
+                                    })
+                                    ->searchDebounce(0)
+                                    ->searchable()
+                                    ->preload()
+                                    ->createOptionForm(Discount::getForm())
+                                    ->createOptionModalHeading('Create Discount')
+                                    ->editOptionForm(Discount::getForm())
+                                    ->editOptionModalHeading('Edit Discount')
+                                    ->native(false),
+
+                                TextInput::make('discount_price')
+                                    ->numeric()
+                                    ->prefix('BDT'),
                             ])
                             ->columns(2)
                     ])

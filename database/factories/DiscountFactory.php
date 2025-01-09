@@ -22,7 +22,7 @@ class DiscountFactory extends Factory
     {
         return [
             'name' => $this->faker->name(),
-            'amount' => $this->faker->randomFloat(0, 0, 9999999999.),
+            'amount' => $this->faker->randomFloat(0, 0, 100.),
             'type' => $this->faker->randomElement(["flat","percentage"]),
             'status' => rand(0,1),
             'created_by' => $this->faker->randomNumber(),
