@@ -4,6 +4,9 @@ namespace App\Models;
 
 use App\Models\Trait\CreatedUpdatedByRelationship;
 use App\Models\Trait\ModelBoot;
+use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -36,4 +39,22 @@ class Brand extends Model
         'created_by' => 'integer',
         'updated_by' => 'integer',
     ];
+
+    /**
+     * @return array
+     */
+    public static function getForm(): array
+    {
+        return [
+            TextInput::make('name')
+                ->required()
+                ->maxLength(255)
+                ->columnSpanFull(),
+            RichEditor::make('description')
+                ->nullable()
+                ->columnSpanFull(),
+            Toggle::make('status')
+                ->default(true)
+        ];
+    }
 }

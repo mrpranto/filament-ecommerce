@@ -30,17 +30,7 @@ class BrandResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-            ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->maxLength(255)
-                    ->columnSpanFull(),
-                Forms\Components\RichEditor::make('description')
-                    ->nullable()
-                    ->columnSpanFull(),
-                Forms\Components\Toggle::make('status')
-                    ->default(true)
-            ]);
+            ->schema(Brand::getForm());
     }
 
     public static function table(Table $table): Table
