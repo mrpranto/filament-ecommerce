@@ -10,6 +10,8 @@ use App\Models\Discount;
 use App\Models\Product;
 use App\Models\SubCategory;
 use App\Models\SubSubCategory;
+use Filament\Forms\Components\Checkbox;
+use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Group;
 use Filament\Forms\Components\RichEditor;
@@ -46,7 +48,8 @@ class ProductsResource extends Resource
                                 TextInput::make('name')
                                     ->required()
                                     ->live(onBlur: true)
-                                    ->maxLength(255)->afterStateUpdated(function ($operation, $state, $set) {
+                                    ->maxLength(255)
+                                    ->afterStateUpdated(function ($operation, $state, $set) {
                                         if ($operation == 'create') {
                                             $set('slug', Str::slug($state));
                                         }
@@ -81,12 +84,20 @@ class ProductsResource extends Resource
                                 TextInput::make('cost_price')
                                     ->required()
                                     ->numeric()
-                                    ->prefix('BDT'),
+                                    ->helperText('Customer won\'t see this price.')
+                                    ->suffix('BDT'),
 
                                 TextInput::make('sale_price')
                                     ->required()
                                     ->numeric()
-                                    ->prefix('BDT'),
+                                    ->live()
+                                    ->afterStateUpdated(function ($state, $set, $get) {
+                                        if ($get('discount_id')) {
+                                            $discounted_sale_price = Product::calculateDiscountedSalePrice($state, $get('discount_id'));
+                                            $set('discount_price', $discounted_sale_price);
+                                        }
+                                    })
+                                    ->suffix('BDT'),
 
                                 Select::make('discount_id')
                                     ->relationship('discount')
@@ -101,11 +112,36 @@ class ProductsResource extends Resource
                                     ->createOptionModalHeading('Create Discount')
                                     ->editOptionForm(Discount::getForm())
                                     ->editOptionModalHeading('Edit Discount')
+                                    ->live()
+                                    ->afterStateUpdated(function ($state, $set, $get) {
+                                        if ($get('sale_price')) {
+                                            $discounted_sale_price = Product::calculateDiscountedSalePrice($get('sale_price'), $state);
+                                            $set('discount_price', $discounted_sale_price);
+                                        }
+                                    })
                                     ->native(false),
 
                                 TextInput::make('discount_price')
                                     ->numeric()
-                                    ->prefix('BDT'),
+                                    ->readOnly()
+                                    ->suffix('BDT'),
+                            ])
+                            ->columns(2),
+
+                        Section::make('Inventory')
+                            ->schema([
+                                TextInput::make('barcode')
+                                    ->maxLength(20),
+                                TextInput::make('sku')
+                                    ->label('SKU (Stock Keeping Unit)'),
+                                TextInput::make('quantity')
+                                    ->required()
+                                    ->helperText('This will be your product stock quantity.')
+                                    ->numeric(),
+                                TextInput::make('alert_quantity')
+                                    ->required()
+                                    ->helperText('The safety stock is the limit stock for your products which alerts you if the product stock will soon be out of stock.')
+                                    ->numeric(),
                             ])
                             ->columns(2)
                     ])
@@ -175,6 +211,16 @@ class ProductsResource extends Resource
                                     ->default(true)
                             ])
                             ->collapsible(),
+
+                        Section::make('Shipping')
+                        ->schema([
+                            Checkbox::make('is_returnable')
+                            ->label('This product can be returned.'),
+                            DatePicker::make('return_validity')
+                            ->format('Y-m-d')
+                            ->requiredIfAccepted('is_returnable')
+                        ])
+                        ->collapsible()
                     ])
                     ->columnSpan(['lg' => 1]),
             ])

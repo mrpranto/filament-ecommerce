@@ -94,4 +94,26 @@ class Product extends Model
     {
         return $this->hasMany(ProductVariation::class);
     }
+
+
+    /**
+     * @param $current_sale_price
+     * @param $selected_discount
+     * @return float|int|string
+     */
+    public static function calculateDiscountedSalePrice($current_sale_price, $selected_discount): float|int|string
+    {
+        $selected_discount = Discount::query()->where('id', $selected_discount)->first();
+
+        if ($selected_discount && $current_sale_price){
+            if ($selected_discount->type == 'percentage') {
+
+                $discountedSalePrice = $current_sale_price - ($current_sale_price * ($selected_discount->amount / 100));
+            }else{
+                $discountedSalePrice = $current_sale_price - $selected_discount->amount;
+            }
+            return round($discountedSalePrice, 2);
+        }
+        return '';
+    }
 }
