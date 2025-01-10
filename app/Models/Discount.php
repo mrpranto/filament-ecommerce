@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Trait\CreatedUpdatedByRelationship;
 use App\Models\Trait\ModelBoot;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
@@ -50,26 +51,31 @@ class Discount extends Model
                 ->maxLength(255)
                 ->columnSpanFull(),
 
-            TextInput::make('amount')
-                ->required()
-                ->numeric()
-                ->suffix(fn ($get) => $get('amount_suffix') ?? 'BDT'),
+            Section::make()
+                ->schema([
+                    TextInput::make('amount')
+                        ->required()
+                        ->numeric()
+                        ->suffix(fn($get) => $get('amount_suffix') ?? 'BDT'),
 
-            Select::make('type')
-                ->live()
-                ->required()
-                ->options([
-                    'percentage' => 'Percentage (%)',
-                    'flat' => 'Flat (BDT)',
+                    Select::make('type')
+                        ->live()
+                        ->required()
+                        ->options([
+                            'percentage' => 'Percentage (%)',
+                            'flat' => 'Flat (BDT)',
+                        ])
+                        ->native(false)
+                        ->afterStateUpdated(function ($set, $state) {
+                            if ($state === 'flat') {
+                                $set('amount_suffix', 'BDT');
+                            } else {
+                                $set('amount_suffix', '%');
+                            }
+                        }),
                 ])
-                ->native(false)
-                ->afterStateUpdated(function ($set, $state) {
-                    if ($state === 'flat') {
-                        $set('amount_suffix', 'BDT');
-                    }else{
-                        $set('amount_suffix', '%');
-                    }
-                }),
+                ->columns(2),
+
             Toggle::make('status')
                 ->default(true)
         ];
